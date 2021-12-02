@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,9 +16,16 @@ namespace _360DialogWrapper
         public static String _360DialogAPIkey;
         private static String SendTextMessageEndpoint = "https://waba.360dialog.io/v1/messages";
         private static String SendMediaMessageEndpoint = "https://waba.360dialog.io/v1/media";
-        private static Dictionary<string, string> dic_mediatypes = new Dictionary<string, string>()
+        private static Dictionary<string, string> dic_mimemediatypes = new Dictionary<string, string>()
         {
             { "document_pdf","application/pdf" },{"document_docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
+        };
+        private static Dictionary<string, Int32> dic_fileextensionstodoc = new Dictionary<string, Int32>()
+        {
+            { ".pdf",(Int32)mediatype.document_pdf},
+            { ".doc",(Int32)mediatype.document_word},
+            { ".docx",(Int32)mediatype.document_word}
+
         };
 
         public static string SendTextMessage(string phonenumber, string message)
@@ -53,7 +61,7 @@ namespace _360DialogWrapper
             }
         }
 
-        public static string SendMediaFile(string phonenumber, mediatype mediaType, byte[] fileData = null, string filepath = "", string caption = "")
+        public static string SendMediaFile(string phonenumber, mediatype mediaType = mediatype.notspecified, byte[] fileData = null, string filepath = "", string caption = "")
         {
             try
             {
@@ -69,13 +77,38 @@ namespace _360DialogWrapper
                 {
                     throw new ArgumentException("File Content Or Path must be Provided.");
                 }
-                if (!dic_mediatypes.ContainsKey(mediaType.ToString()))
+                if (fileData != null && !String.IsNullOrEmpty(filepath))
+                {
+                    throw new ArgumentException("fileData and filepath cannot be provided together.");
+                }
+                if (mediaType != mediatype.notspecified && !dic_mimemediatypes.ContainsKey(mediaType.ToString()))
                 {
                     throw new ArgumentException("Invalid Media Type Provided");
                 }
+                if(mediaType == mediatype.notspecified && fileData != null)
+                {
+                    throw new ArgumentException("You have provided binary data without specifying the mediaType.");
+                }
+                if (mediaType != mediatype.notspecified && !String.IsNullOrEmpty(filepath))
+                {
+                    throw new ArgumentException("mediaType will be infered from file, please set mediaType to notspecified");
+                }
+
                 phonenumber = phonenumber.Replace("-", "");
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
-                var mediaupload = cls_Requests.POSTMediaFile(SendMediaMessageEndpoint, dic_mediatypes[mediaType.ToString()], filepath, fileData, new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
+                string contenttype = "";
+                if (mediaType == mediatype.notspecified)
+                {
+                    var ext = Path.GetExtension(filepath);
+                    contenttype = ((mediatype)dic_fileextensionstodoc[ext]).ToString();
+                    contenttype = dic_mimemediatypes[contenttype];
+                }
+                else
+                {
+                    contenttype = dic_mimemediatypes[mediaType.ToString()];
+                }
+
+                var mediaupload = cls_Requests.POSTMediaFile(SendMediaMessageEndpoint, contenttype, filepath, fileData, new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
                 var mediauploadresp = serializer1.Deserialize<_360DialogUploadedMediaResponse>(mediaupload);
                 _360DialogMediaDocumentMessage msg = new _360DialogMediaDocumentMessage() { to = phonenumber, document = new _360DialogMediaDocumentMessagedocument(mediauploadresp.media[0].id, caption) };
                 string body = serializer1.Serialize(msg);
@@ -206,8 +239,9 @@ namespace _360DialogWrapper
     //Only H.264 video codec and AAC audio codec is supported.Only videos with a single audio stream are supported.
     public enum mediatype
     {
+        notspecified,
         document_pdf,
-        document_docx
+        document_word
 
 
     }

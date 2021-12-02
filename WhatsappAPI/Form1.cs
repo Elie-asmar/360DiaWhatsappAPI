@@ -222,23 +222,12 @@ namespace WhatsappAPI
                     var flname = arl[0].ToString();
                     var capt = ((TextBox)arl[1]).Text;
                     _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "62kegb5RB8PsBFNwrdAXevXjAK";
-                    var msg= _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.document_pdf, null, flname, capt);
+                    var msg= _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.notspecified, null, flname, capt);
 
-                    //JavaScriptSerializer serializer1 = new JavaScriptSerializer();
-                    //var arl = (ArrayList)pnlUpload.Controls[0].Tag;
-                    //var flname = arl[0].ToString();
-                    //var capt = ((TextBox)arl[1]).Text;
+                    var data = File.ReadAllBytes(flname);
+                    var msg1 = _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.document_pdf, data,"", capt);
 
 
-
-                    //var mediaupload = POSTMediaFile("https://waba.360dialog.io/v1/media", flname, new Dictionary<string, string>() { { "D360-API-KEY", "62kegb5RB8PsBFNwrdAXevXjAK" } });
-                    //var mediauploadresp = serializer1.Deserialize<_360DialogUploadedMediaResponse>(mediaupload);
-
-                    //_360DialogMediaDocumentMessage msg = new _360DialogMediaDocumentMessage() { to = txtphone2.Text.Trim(), document = new _360DialogMediaDocumentMessagedocument(mediauploadresp.media[0].id, capt) };
-
-                    //string body = serializer1.Serialize(msg);
-
-                    //var rr = POST("https://waba.360dialog.io/v1/messages", body, new Dictionary<string, string>() { { "D360-API-KEY", "62kegb5RB8PsBFNwrdAXevXjAK" } });
 
                 }
             }
