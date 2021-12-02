@@ -224,8 +224,8 @@ namespace WhatsappAPI
                     _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "62kegb5RB8PsBFNwrdAXevXjAK";
                     var msg= _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.notspecified, null, flname, capt);
 
-                    var data = File.ReadAllBytes(flname);
-                    var msg1 = _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.document_pdf, data,"", capt);
+                    //var data = File.ReadAllBytes(flname);
+                    //var msg1 = _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.document_pdf, data,"", capt);
 
 
 

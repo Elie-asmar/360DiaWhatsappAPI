@@ -16,6 +16,7 @@ namespace _360DialogWrapper
         public static String _360DialogAPIkey;
         private static String SendTextMessageEndpoint = "https://waba.360dialog.io/v1/messages";
         private static String SendMediaMessageEndpoint = "https://waba.360dialog.io/v1/media";
+        private static string CheckContactsEndpoint = "https://waba.360dialog.io/v1/contacts";
         private static Dictionary<string, string> dic_mimemediatypes = new Dictionary<string, string>()
         {
             { "document_pdf","application/pdf" },{"document_docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
@@ -27,20 +28,58 @@ namespace _360DialogWrapper
             { ".docx",(Int32)mediatype.document_word}
 
         };
+        private static string  getwa_id(string phonenumber)
+        {
+            try
+            {
+                JavaScriptSerializer serializer1 = new JavaScriptSerializer();
+                _360DialogContactsEndpointMessage msg = new _360DialogContactsEndpointMessage();
+                msg.contacts.Add(phonenumber);
+                var resp = cls_Requests.POST(CheckContactsEndpoint, serializer1.Serialize(msg), new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
+                var respObj = serializer1.Deserialize<_360DialogContactsEndpointResponse>(resp);
+                if (String.IsNullOrEmpty(respObj.contacts[0].wa_id))
+                {
+                    throw new Exception("404");
+
+                }
+                else
+                {
+                    return respObj.contacts[0].wa_id;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        private static void isphonenumbervalid(string phonenumber)
+        {
+            try
+            {
+                if (!Regex.IsMatch(phonenumber, @"^\+\d{1,3}\d+"))
+                {
+                    throw new ArgumentException("phonenumber must have the following format: `+countrycode``phonenumber`->+9613446677;+96171190337");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
 
         public static string SendTextMessage(string phonenumber, string message)
         {
             try
             {
-                if (!Regex.IsMatch(phonenumber, @"^\d{1,3}-\d+"))
-                {
-                    throw new ArgumentException("phonenumber must have the following format: `countrycode`-`phonenumber`->961-3446677;961-71190337");
-                }
+
+                isphonenumbervalid(phonenumber);
                 if (String.IsNullOrEmpty(_360DialogAPIkey))
                 {
                     throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
                 }
-                phonenumber = phonenumber.Replace("-", "");
+
+                phonenumber = getwa_id(phonenumber);
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogTextMessage msg = new _360DialogTextMessage() { to = phonenumber, text = new _360DialogTextMessagetext(message) };
                 var msg1 = cls_Requests.POST(SendTextMessageEndpoint, serializer1.Serialize(msg), new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
@@ -65,10 +104,8 @@ namespace _360DialogWrapper
         {
             try
             {
-                if (!Regex.IsMatch(phonenumber, @"^\d{1,3}-\d+"))
-                {
-                    throw new ArgumentException("phonenumber must have the following format: `countrycode`-`phonenumber`->961-3446677;961-71190337");
-                }
+                isphonenumbervalid(phonenumber);
+
                 if (String.IsNullOrEmpty(_360DialogAPIkey))
                 {
                     throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
@@ -85,7 +122,7 @@ namespace _360DialogWrapper
                 {
                     throw new ArgumentException("Invalid Media Type Provided");
                 }
-                if(mediaType == mediatype.notspecified && fileData != null)
+                if (mediaType == mediatype.notspecified && fileData != null)
                 {
                     throw new ArgumentException("You have provided binary data without specifying the mediaType.");
                 }
@@ -94,7 +131,7 @@ namespace _360DialogWrapper
                     throw new ArgumentException("mediaType will be infered from file, please set mediaType to notspecified");
                 }
 
-                phonenumber = phonenumber.Replace("-", "");
+                phonenumber = getwa_id(phonenumber);
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 string contenttype = "";
                 if (mediaType == mediatype.notspecified)
@@ -133,6 +170,30 @@ namespace _360DialogWrapper
 
 
 
+    }
+    internal class _360DialogContactsEndpointMessage
+    {
+        public _360DialogContactsEndpointMessage()
+        {
+            blocking = "no_wait";
+            force_check = false;
+            contacts = new List<string>();
+        }
+        public string blocking { get; set; }
+        public List<string> contacts { get; set; }
+        public Boolean force_check { get; set; }
+
+    }
+    internal class _360DialogContactsEndpointResponse
+    {
+        public List<_360DialogContactsEndpointResponseContactObj> contacts;
+        public object meta;
+    }
+    internal class _360DialogContactsEndpointResponseContactObj
+    {
+        public string input { get; set; }
+        public string status { get; set; }
+        public string wa_id { get; set; }
     }
 
     internal class _360DialogTextMessage
