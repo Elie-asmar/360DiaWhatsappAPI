@@ -329,7 +329,6 @@ namespace _360DialogWrapper
         public string status { get; set; }
         public string wa_id { get; set; }
     }
-
     internal class _360DialogTextMessage
     {
         internal _360DialogTextMessage()
@@ -342,7 +341,6 @@ namespace _360DialogWrapper
         public string type { get; set; }
         public _360DialogTextMessagetext text { get; set; }
     }
-
     internal class _360DialogTextMessagetext
     {
         internal _360DialogTextMessagetext(string _msg)
@@ -352,7 +350,6 @@ namespace _360DialogWrapper
         public string body { get; set; }
 
     }
-
     internal class _360DialogMediaImageMessage
     {
         internal _360DialogMediaImageMessage()
@@ -366,7 +363,6 @@ namespace _360DialogWrapper
         public string type { get; set; }
         public _360DialogMediaImageMessageimage image { get; set; }
     }
-
     internal class _360DialogMediaImageMessageimage
     {
         internal _360DialogMediaImageMessageimage(string _id, string _caption)
@@ -378,7 +374,6 @@ namespace _360DialogWrapper
         public string caption { get; set; }
 
     }
-
     internal class _360DialogMediaDocumentMessage
     {
         internal _360DialogMediaDocumentMessage()
@@ -392,7 +387,6 @@ namespace _360DialogWrapper
         public string type { get; set; }
         public _360DialogMediaDocumentMessagedocument document { get; set; }
     }
-
     internal class _360DialogMediaDocumentMessagedocument
     {
         internal _360DialogMediaDocumentMessagedocument(string _id, string _caption)
@@ -404,13 +398,11 @@ namespace _360DialogWrapper
         public string caption { get; set; }
 
     }
-
     internal class _360DialogUploadedMediaResponse
     {
         public List<_360DialogUploadedMediaResponseid> media;
         public object meta;
     }
-
     internal class _360DialogUploadedMediaResponseid
     {
         public string id { get; set; }
