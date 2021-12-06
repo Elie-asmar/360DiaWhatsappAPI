@@ -14,9 +14,13 @@ namespace _360DialogWrapper
     public static class _360DialogWrapper
     {
         public static String _360DialogAPIkey;
+
+
+        private static Dictionary<string, string> APIHeader = new Dictionary<string, string> { { "D360-API-KEY", _360DialogAPIkey } };
         private static String SendTextMessageEndpoint = "https://waba.360dialog.io/v1/messages";
         private static String SendMediaMessageEndpoint = "https://waba.360dialog.io/v1/media";
         private static string CheckContactsEndpoint = "https://waba.360dialog.io/v1/contacts";
+        private static string DeleteMediaEndpoint = "https://waba.360dialog.io/v1/media/";
         private static Dictionary<string, string> dic_mimemediatypes = new Dictionary<string, string>()
         {
             { "document_pdf","application/pdf" },{"document_docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
@@ -28,23 +32,33 @@ namespace _360DialogWrapper
             { ".docx",(Int32)mediatype.document_word}
 
         };
-        private static string  getwa_id(string phonenumber)
+        private static void setAPIHeader()
+        {
+            APIHeader["D360-API-KEY"] = _360DialogAPIkey;
+        }
+        private static List<string> uploadedids;
+        /// <summary>
+        /// Get a list of uploaded media during your session.
+        /// </summary>
+        public  static List<string> session_uploaded_media { get { return uploadedids; } }
+
+        private static string getwa_id(string phonenumber)
         {
             try
             {
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogContactsEndpointMessage msg = new _360DialogContactsEndpointMessage();
                 msg.contacts.Add(phonenumber);
-                var resp = cls_Requests.POST(CheckContactsEndpoint, serializer1.Serialize(msg), new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
+                var resp = cls_Requests.POST(CheckContactsEndpoint, serializer1.Serialize(msg), APIHeader);
                 var respObj = serializer1.Deserialize<_360DialogContactsEndpointResponse>(resp);
-                if (String.IsNullOrEmpty(respObj.contacts[0].wa_id))
+                if (!String.IsNullOrEmpty(respObj.contacts[0].wa_id) && respObj.contacts[0].status == "valid")
                 {
-                    throw new Exception("404");
+                    return respObj.contacts[0].wa_id;
 
                 }
                 else
                 {
-                    return respObj.contacts[0].wa_id;
+                    throw new Exception("Invalid_Number");
                 }
 
             }
@@ -62,36 +76,43 @@ namespace _360DialogWrapper
                     throw new ArgumentException("phonenumber must have the following format: `+countrycode``phonenumber`->+9613446677;+96171190337");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phonenumber">format +96171abcdef or +9613abcdef</param>
+        /// <param name="message">Message to send</param>
+        /// <returns>OK</returns>
         public static string SendTextMessage(string phonenumber, string message)
         {
             try
             {
 
-                isphonenumbervalid(phonenumber);
                 if (String.IsNullOrEmpty(_360DialogAPIkey))
                 {
                     throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
                 }
+                setAPIHeader();
+                isphonenumbervalid(phonenumber);
+
 
                 phonenumber = getwa_id(phonenumber);
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogTextMessage msg = new _360DialogTextMessage() { to = phonenumber, text = new _360DialogTextMessagetext(message) };
-                var msg1 = cls_Requests.POST(SendTextMessageEndpoint, serializer1.Serialize(msg), new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
-                return msg1;
+                var msg1 = cls_Requests.POST(SendTextMessageEndpoint, serializer1.Serialize(msg), APIHeader);
+                return "OK";
 
 
             }
             catch (Exception ex)
             {
-                if (ex.Message.IndexOf("404") > -1)
+                if (ex.Message.IndexOf("Invalid_Number") > -1)
                 {
-                    throw new Exception("Number not found in contact list. Consider the Opt-in option");
+                    throw new Exception("Invalid Phone Number");
                 }
                 else
                 {
@@ -100,16 +121,28 @@ namespace _360DialogWrapper
             }
         }
 
-        public static string SendMediaFile(string phonenumber, mediatype mediaType = mediatype.notspecified, byte[] fileData = null, string filepath = "", string caption = "")
+        /// <summary>
+        /// Used to upload a file to whatsapp server.
+        /// </summary>
+        /// <param name="mediaType">set to notspecified in case filepath is specified.</param>
+        /// <param name="fileData">File Content embedded in bytes array</param>
+        /// <param name="filepath">Physical location of the file.</param>
+        /// <returns>Whatsapp MediaID of the file</returns>
+        public static string UploadMedia(mediatype mediaType = mediatype.notspecified, byte[] fileData = null, string filepath = "")
         {
+            string _mediaid = "";
             try
             {
-                isphonenumbervalid(phonenumber);
-
                 if (String.IsNullOrEmpty(_360DialogAPIkey))
                 {
                     throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
                 }
+                setAPIHeader();
+
+
+                JavaScriptSerializer serializer1 = new JavaScriptSerializer();
+
+
                 if (fileData == null && String.IsNullOrEmpty(filepath))
                 {
                     throw new ArgumentException("File Content Or Path must be Provided.");
@@ -131,8 +164,6 @@ namespace _360DialogWrapper
                     throw new ArgumentException("mediaType will be infered from file, please set mediaType to notspecified");
                 }
 
-                phonenumber = getwa_id(phonenumber);
-                JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 string contenttype = "";
                 if (mediaType == mediatype.notspecified)
                 {
@@ -145,19 +176,85 @@ namespace _360DialogWrapper
                     contenttype = dic_mimemediatypes[mediaType.ToString()];
                 }
 
-                var mediaupload = cls_Requests.POSTMediaFile(SendMediaMessageEndpoint, contenttype, filepath, fileData, new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
+                var mediaupload = cls_Requests.POSTMediaFile(SendMediaMessageEndpoint, contenttype, filepath, fileData, APIHeader);
                 var mediauploadresp = serializer1.Deserialize<_360DialogUploadedMediaResponse>(mediaupload);
-                _360DialogMediaDocumentMessage msg = new _360DialogMediaDocumentMessage() { to = phonenumber, document = new _360DialogMediaDocumentMessagedocument(mediauploadresp.media[0].id, caption) };
-                string body = serializer1.Serialize(msg);
+                _mediaid = mediauploadresp.media[0].id;
 
-                var ret = cls_Requests.POST(SendTextMessageEndpoint, body, new Dictionary<string, string>() { { "D360-API-KEY", _360DialogAPIkey } });
-                return ret;
+                if(uploadedids == null)
+                {
+                    uploadedids = new List<string>();
+                }
+                uploadedids.Add(_mediaid);
+                return _mediaid;
             }
             catch (Exception ex)
             {
-                if (ex.Message.IndexOf("404") > -1)
+                if (ex.Message.IndexOf("Invalid_Number") > -1)
                 {
-                    throw new Exception("Number not found in contact list. Consider the Opt-in option");
+                    throw new Exception("Invalid Phone Number");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+        /// <summary>
+        /// Send A file to a contact.
+        /// Works in 2 different modes:
+        /// 1- Provide file path or content.
+        ///     1.1- content : specify mediaType and fileData 
+        ///     1.2- file path : specify filepath
+        /// 2- Provide a valid mediaid returned by the UploadMedia API
+        /// </summary>
+        /// <param name="phonenumber">format +96171abcdef or +9613abcdef</param>
+        /// <param name="mediaType">set to not specified in case filepath is specified.</param>
+        /// <param name="fileData">File Content embedded in bytes array</param>
+        /// <param name="filepath">Physical location of the file.</param>
+        /// <param name="caption">The caption to send with the file</param>
+        /// <param name="mediaid">Uploaded Media ID returned by the UploadMedia API</param>
+        /// <returns>OK</returns>
+        public static string SendMediaFile(string phonenumber, mediatype mediaType = mediatype.notspecified,
+            byte[] fileData = null, string filepath = "", string caption = "", string mediaid = "")
+        {
+            string _mediaid = "";
+            try
+            {
+                if (String.IsNullOrEmpty(_360DialogAPIkey))
+                {
+                    throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
+                }
+                setAPIHeader();
+                isphonenumbervalid(phonenumber);
+                phonenumber = getwa_id(phonenumber);
+
+
+                JavaScriptSerializer serializer1 = new JavaScriptSerializer();
+
+                if (mediaid == "")
+                {
+                    _mediaid = UploadMedia(mediaType, fileData, filepath);
+                }
+                else
+                {
+                    _mediaid = mediaid;
+                }
+
+
+                _360DialogMediaDocumentMessage msg = new _360DialogMediaDocumentMessage() { to = phonenumber, document = new _360DialogMediaDocumentMessagedocument(_mediaid, caption) };
+                string body = serializer1.Serialize(msg);
+
+                var ret = cls_Requests.POST(SendTextMessageEndpoint, body, APIHeader);
+
+
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.IndexOf("Invalid_Number") > -1)
+                {
+                    throw new Exception("Invalid Phone Number");
                 }
                 else
                 {
@@ -165,6 +262,43 @@ namespace _360DialogWrapper
                 }
             }
 
+        }
+        /// <summary>
+        /// returns true if successfully deleted
+        /// </summary>
+        /// <param name="mediaid">The mediaid return by UploadMedia API</param>
+        /// <returns></returns>
+        public static Boolean DeleteMedia(string mediaid)
+        {
+            try
+            {
+
+                if (String.IsNullOrEmpty(_360DialogAPIkey))
+                {
+                    throw new Exception("360 Dialog API is missing, please set the _360DialogAPIkey variable");
+                }
+                setAPIHeader();
+                var ret = cls_Requests.DELETEMediaFile(DeleteMediaEndpoint + mediaid, APIHeader);
+                if (uploadedids == null)
+                {
+                    uploadedids = new List<string>();
+                }
+                uploadedids.Remove(mediaid);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.IndexOf("404") > -1)
+                {
+                    return true; //media not found, accept response as a successfull delete operation since media does not exists
+                }
+                else
+                {
+                    throw;
+                }
+
+            }
         }
 
 
@@ -175,7 +309,7 @@ namespace _360DialogWrapper
     {
         public _360DialogContactsEndpointMessage()
         {
-            blocking = "no_wait";
+            blocking = "wait";
             force_check = false;
             contacts = new List<string>();
         }
@@ -281,6 +415,7 @@ namespace _360DialogWrapper
     {
         public string id { get; set; }
     }
+
 
 
 

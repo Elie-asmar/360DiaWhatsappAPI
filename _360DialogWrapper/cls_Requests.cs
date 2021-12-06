@@ -86,11 +86,16 @@ namespace _360DialogWrapper
             }
         }
 
-        public static string GET(string url)
+        public static string GET(string url, Dictionary<string, string> HEADERS = null)
         {
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(url);
+                if (HEADERS != null)
+                    foreach (var kvp in HEADERS)
+                    {
+                        request.Headers.Add(kvp.Key, kvp.Value);
+                    }
                 request.Method = "GET";
 
 
@@ -111,6 +116,38 @@ namespace _360DialogWrapper
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public static string DELETEMediaFile(string url, Dictionary<string, string> HEADERS = null)
+        {
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "DELETE";
+
+                if (HEADERS != null)
+                    foreach (var kvp in HEADERS)
+                    {
+                        request.Headers.Add(kvp.Key, kvp.Value);
+                    }
+                var responseString = "";
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                        responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    else
+                        responseString = "";
+
+                    response.Close();
+                }
+
+                return responseString;
+            }
+            catch(Exception ex)
+            {
+                throw;
             }
         }
 

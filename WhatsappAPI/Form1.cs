@@ -103,6 +103,8 @@ namespace WhatsappAPI
         {
             try
             {
+                _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "62kegb5RB8PsBFNwrdAXevXjAK";
+                var msg = _360DialogWrapper._360DialogWrapper.SendTextMessage(txtnbr.Text.Trim(), "HI");
 
                 //JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 //_360DialogTextMessage msg = new _360DialogTextMessage() { to = txtnbr.Text.Trim(), text = new _360DialogTextMessagetext(txtMsg.Text) };
@@ -113,7 +115,7 @@ namespace WhatsappAPI
                 //string body = serializer1.Serialize(msg);
 
                 //var msg1 = POST("https://waba.360dialog.io/v1/messages", body, new Dictionary<string, string>() { { "D360-API-KEY", "62kegb5RB8PsBFNwrdAXevXjAK" } });
-             
+
 
             }
             catch (Exception ex)
