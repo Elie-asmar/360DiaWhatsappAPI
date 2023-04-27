@@ -104,7 +104,7 @@ namespace _360DialogWrapper
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogTextMessage msg = new _360DialogTextMessage() { to = phonenumber, text = new _360DialogTextMessagetext(message) };
                 var msg1 = cls_Requests.POST(SendTextMessageEndpoint, serializer1.Serialize(msg), APIHeader);
-                return "OK";
+                return msg1;
 
 
             }
@@ -248,7 +248,7 @@ namespace _360DialogWrapper
 
 
 
-                return "OK";
+                return ret;
             }
             catch (Exception ex)
             {
