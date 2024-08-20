@@ -4,7 +4,6 @@ C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\WhatsappAPI.pdb
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\QRCoder.dll
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\_360DialogWrapper.dll
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\_360DialogWrapper.pdb
-C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.csprojResolveAssemblyReference.cache
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.Form1.resources
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.menu.resources
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.Opt_inBarcodeGen.resources
@@ -12,3 +11,9 @@ C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.Prop
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.csproj.GenerateResource.Cache
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.exe
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.pdb
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.Form_NewAPI.resources
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\WhatsappAPI.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\obj\Debug\Whatsapp.12F3A839.Up2Date
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\_360DialogWrapperCloudAPI.dll
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\WhatsappAPI\bin\Debug\_360DialogWrapperCloudAPI.pdb

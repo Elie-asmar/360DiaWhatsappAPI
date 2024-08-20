@@ -21,6 +21,8 @@ namespace _360DialogWrapper
         private static String SendMediaMessageEndpoint = "https://waba.360dialog.io/v1/media";
         private static string CheckContactsEndpoint = "https://waba.360dialog.io/v1/contacts";
         private static string DeleteMediaEndpoint = "https://waba.360dialog.io/v1/media/";
+
+        private static string NewAPI_CheckContactsEndpoint = "https://waba-v2.360dialog.io/Contacts";
         private static Dictionary<string, string> dic_mimemediatypes = new Dictionary<string, string>()
         {
             { "document_pdf","application/pdf" },{"document_docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
@@ -49,7 +51,7 @@ namespace _360DialogWrapper
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogContactsEndpointMessage msg = new _360DialogContactsEndpointMessage();
                 msg.contacts.Add(phonenumber);
-                var resp = cls_Requests.POST(CheckContactsEndpoint, serializer1.Serialize(msg), APIHeader);
+                var resp = cls_Requests.POST(NewAPI_CheckContactsEndpoint, serializer1.Serialize(msg), APIHeader);
                 var respObj = serializer1.Deserialize<_360DialogContactsEndpointResponse>(resp);
                 if (!String.IsNullOrEmpty(respObj.contacts[0].wa_id) && respObj.contacts[0].status == "valid")
                 {

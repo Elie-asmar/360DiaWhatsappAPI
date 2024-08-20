@@ -2,4 +2,5 @@ C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\bin\Debug\_360Dialog
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\bin\Debug\_360DialogWrapper.pdb
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\obj\Debug\_360DialogWrapper.dll
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\obj\Debug\_360DialogWrapper.pdb
-C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\obj\Debug\_360DialogWrapper.csprojResolveAssemblyReference.cache
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\obj\Debug\_360DialogWrapper.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapper\obj\Debug\_360DialogWrapper.csproj.CoreCompileInputs.cache

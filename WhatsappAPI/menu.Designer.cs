@@ -30,20 +30,22 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.whatsappAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOptin = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSendData = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.sendDataCloudAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.whatsappAPIToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(957, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1276, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
             // 
@@ -51,33 +53,42 @@
             // 
             this.whatsappAPIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOptin,
-            this.mnuSendData});
+            this.mnuSendData,
+            this.sendDataCloudAPIToolStripMenuItem});
             this.whatsappAPIToolStripMenuItem.Name = "whatsappAPIToolStripMenuItem";
-            this.whatsappAPIToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.whatsappAPIToolStripMenuItem.Size = new System.Drawing.Size(116, 24);
             this.whatsappAPIToolStripMenuItem.Text = "Whatsapp API";
             // 
             // mnuOptin
             // 
             this.mnuOptin.Name = "mnuOptin";
-            this.mnuOptin.Size = new System.Drawing.Size(209, 22);
+            this.mnuOptin.Size = new System.Drawing.Size(262, 26);
             this.mnuOptin.Text = "Generate Opt-in QR Code";
             this.mnuOptin.Click += new System.EventHandler(this.mnuOptin_Click);
             // 
             // mnuSendData
             // 
             this.mnuSendData.Name = "mnuSendData";
-            this.mnuSendData.Size = new System.Drawing.Size(209, 22);
+            this.mnuSendData.Size = new System.Drawing.Size(262, 26);
             this.mnuSendData.Text = "Send Data";
             this.mnuSendData.Click += new System.EventHandler(this.mnuSendData_Click);
             // 
+            // sendDataCloudAPIToolStripMenuItem
+            // 
+            this.sendDataCloudAPIToolStripMenuItem.Name = "sendDataCloudAPIToolStripMenuItem";
+            this.sendDataCloudAPIToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.sendDataCloudAPIToolStripMenuItem.Text = "Send Data Cloud API";
+            this.sendDataCloudAPIToolStripMenuItem.Click += new System.EventHandler(this.sendDataCloudAPIToolStripMenuItem_Click);
+            // 
             // menu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(957, 512);
+            this.ClientSize = new System.Drawing.Size(1276, 630);
             this.Controls.Add(this.menuStrip);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "menu";
@@ -96,6 +107,7 @@
         private System.Windows.Forms.ToolStripMenuItem whatsappAPIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuOptin;
         private System.Windows.Forms.ToolStripMenuItem mnuSendData;
+        private System.Windows.Forms.ToolStripMenuItem sendDataCloudAPIToolStripMenuItem;
     }
 }
 

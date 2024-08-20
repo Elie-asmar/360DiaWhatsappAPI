@@ -55,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cls_Requests.cs" />
+    <Compile Include="Form_NewAPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_NewAPI.Designer.cs">
+      <DependentUpon>Form_NewAPI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_NewAPI.resx">
+      <DependentUpon>Form_NewAPI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +118,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\_360DialogWrapperCloudAPI\_360DialogWrapperCloudAPI.csproj">
+      <Project>{8c48845c-5585-47f7-8c3c-7851e9d7e820}</Project>
+      <Name>_360DialogWrapperCloudAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\_360DialogWrapper\_360DialogWrapper.csproj">
       <Project>{04ad1014-df1f-4c6a-9a29-f44eed4c7361}</Project>
       <Name>_360DialogWrapper</Name>

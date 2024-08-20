@@ -87,5 +87,39 @@ namespace WhatsappAPI
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void sendDataCloudAPIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (((ToolStripMenuItem)sender).Tag == null)
+                {
+
+                    Form_NewAPI frm = new Form_NewAPI();
+
+
+                    frm.MdiParent = this;
+                    frm.Tag = sender;
+                    ((ToolStripMenuItem)sender).Tag = frm;
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.WindowState = FormWindowState.Maximized;
+                    frm.Show();
+                    ((ToolStripMenuItem)sender).Checked = true;
+
+                }
+                else
+                {
+                    ((Form)((ToolStripMenuItem)sender).Tag).WindowState = FormWindowState.Maximized;
+                    ((Form)((ToolStripMenuItem)sender).Tag).Show();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
