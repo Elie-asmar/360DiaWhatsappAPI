@@ -148,8 +148,8 @@ namespace _360DialogWrapperCloudAPI
                 }
 
                 var mediaupload = cls_Requests.POSTMediaFile_MultipartFormData(SendMediaMessageEndpoint, contenttype, filepath, fileData, APIHeader);
-                var mediauploadresp = serializer1.Deserialize<_360DialogUploadedMediaResponse>(mediaupload);
-                _mediaid = mediauploadresp.media[0].id;
+                var mediauploadresp = serializer1.Deserialize<_360DialogUploadedMediaResponseid>(mediaupload);
+                _mediaid = mediauploadresp.id;
 
                 if (uploadedids == null)
                 {
@@ -212,12 +212,16 @@ namespace _360DialogWrapperCloudAPI
                 }
 
 
-                //_360DialogMediaDocumentMessage msg = new _360DialogMediaDocumentMessage() { to = phonenumber, document = new _360DialogMediaDocumentMessagedocument(_mediaid, caption) };
-                //string body = serializer1.Serialize(msg);
+                _360DialogMediaMessage msg = new _360DialogMediaMessage()
+                {
+                    to = phonenumber,
+                    document = new _360DialogMediaMessageDocument() { id = _mediaid, caption = caption }
+                };
+                string body = serializer1.Serialize(msg);
 
-                //var ret = cls_Requests.POST(SendTextMessageEndpoint, body, APIHeader);
-                //return ret;
-                return "";
+                var ret = cls_Requests.POST(SendTextMessageEndpoint, body, APIHeader);
+                return ret;
+    
             }
             catch (Exception ex)
             {
@@ -233,6 +237,31 @@ namespace _360DialogWrapperCloudAPI
 
         }
     }
+
+    internal class _360DialogMediaMessage
+    {
+        internal _360DialogMediaMessage() {
+            messaging_product = "whatsapp";
+            recipient_type = "individual";
+            type = "document";
+        }
+
+        public string messaging_product { get; set; }
+        public string recipient_type { get; set; }
+        public string to { get; set; }
+        public string type { get; set; }
+        public _360DialogMediaMessageDocument document { get; set; }
+
+    }
+
+    internal class _360DialogMediaMessageDocument
+    {
+        public string id { get; set; }
+        public string link { get;set; }
+        public string caption { get;set;}
+        public string filename { get; set; }
+    }
+
 
 
     internal class _360DialogTextMessage
@@ -258,11 +287,11 @@ namespace _360DialogWrapperCloudAPI
         public string body { get; set; }
 
     }
-    internal class _360DialogUploadedMediaResponse
-    {
-        public List<_360DialogUploadedMediaResponseid> media;
-        public object meta;
-    }
+    //internal class _360DialogUploadedMediaResponse
+    //{
+    //    public List<_360DialogUploadedMediaResponseid> media;
+    //    public object meta;
+    //}
     internal class _360DialogUploadedMediaResponseid
     {
         public string id { get; set; }

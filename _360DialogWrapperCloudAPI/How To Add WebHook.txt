@@ -1,0 +1,9 @@
+﻿POST 
+https://waba-v2.360dialog.io/v1/configs/webhook
+Body
+{
+  "url": "https://www.example.com/webhook",
+  "headers": {
+    "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3M="
+  }
+}
