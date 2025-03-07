@@ -103,7 +103,8 @@ namespace WhatsappAPI
         {
             try
             {
-                _360DialogWrapperCloudAPI._360DialogWrapperCloudAPI._360DialogAPIkey = "HmNoumMp6FnQIX8okOOgerBoAK";
+                //_360DialogWrapperCloudAPI._360DialogWrapperCloudAPI._360DialogAPIkey = "HmNoumMp6FnQIX8okOOgerBoAK";
+                _360DialogWrapperCloudAPI._360DialogWrapperCloudAPI._360DialogAPIkey =  "X9oyR99mru6zBZ4bnYceW86PAK";
                 var msg = _360DialogWrapperCloudAPI._360DialogWrapperCloudAPI.SendTextMessage(txtnbr.Text.Trim(), txtMsg.Text);
 
                 Console.WriteLine(msg);

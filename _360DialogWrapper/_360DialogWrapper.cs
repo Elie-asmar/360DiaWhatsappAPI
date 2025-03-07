@@ -51,7 +51,7 @@ namespace _360DialogWrapper
                 JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 _360DialogContactsEndpointMessage msg = new _360DialogContactsEndpointMessage();
                 msg.contacts.Add(phonenumber);
-                var resp = cls_Requests.POST(NewAPI_CheckContactsEndpoint, serializer1.Serialize(msg), APIHeader);
+                var resp = cls_Requests.POST(CheckContactsEndpoint, serializer1.Serialize(msg), APIHeader);
                 var respObj = serializer1.Deserialize<_360DialogContactsEndpointResponse>(resp);
                 if (!String.IsNullOrEmpty(respObj.contacts[0].wa_id) && respObj.contacts[0].status == "valid")
                 {

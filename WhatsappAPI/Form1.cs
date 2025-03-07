@@ -103,8 +103,10 @@ namespace WhatsappAPI
         {
             try
             {
-                _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "Wf3wjBb6hac3AoVXWkTC6MCjAK";
-                var msg = _360DialogWrapper._360DialogWrapper.SendTextMessage(txtnbr.Text.Trim(), "HI");
+                //
+                // _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "Wf3wjBb6hac3AoVXWkTC6MCjAK";
+                _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "X9oyR99mru6zBZ4bnYceW86PAK";
+                 var msg = _360DialogWrapper._360DialogWrapper.SendTextMessage(txtnbr.Text.Trim(), "HI");
 
                 //JavaScriptSerializer serializer1 = new JavaScriptSerializer();
                 //_360DialogTextMessage msg = new _360DialogTextMessage() { to = txtnbr.Text.Trim(), text = new _360DialogTextMessagetext(txtMsg.Text) };
@@ -223,7 +225,8 @@ namespace WhatsappAPI
                     var arl = (ArrayList)pnlUpload.Controls[0].Tag;
                     var flname = arl[0].ToString();
                     var capt = ((TextBox)arl[1]).Text;
-                    _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "Wf3wjBb6hac3AoVXWkTC6MCjAK";
+                    // _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "Wf3wjBb6hac3AoVXWkTC6MCjAK";
+                    _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "X9oyR99mru6zBZ4bnYceW86PAK";
                     var msg= _360DialogWrapper._360DialogWrapper.SendMediaFile(txtphone2.Text.Trim(), _360DialogWrapper.mediatype.notspecified, null, flname, capt);
 
                     //var data = File.ReadAllBytes(flname);
