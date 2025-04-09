@@ -1,6 +1,17 @@
-﻿POST 
+﻿POST (Cloud API)
 https://waba-v2.360dialog.io/v1/configs/webhook
   "headers": {
+    "D360-API-KEY": "dGVzdHVzZXI6dGVzdHBhc3M="
+  }
+Body
+{
+  "url": "https://b5a4-82-112-160-186.ngrok-free.app/Service1.svc/web/ProcessWebhookEvent",
+
+}
+
+POST (On premises API)
+https://waba.360dialog.io/v1/configs/webhook
+"headers": {
     "D360-API-KEY": "dGVzdHVzZXI6dGVzdHBhc3M="
   }
 Body
