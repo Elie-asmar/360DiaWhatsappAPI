@@ -19,3 +19,9 @@ Body
   "url": "https://b5a4-82-112-160-186.ngrok-free.app/Service1.svc/web/ProcessWebhookEvent",
 
 }
+
+To get actual webhook url:
+
+GET https://waba-v2.360dialog.io/v1/configs/webhook
+
+GET https://waba.360dialog.io/v1/configs/webhook
