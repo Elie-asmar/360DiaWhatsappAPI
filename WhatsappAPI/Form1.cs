@@ -58,6 +58,31 @@ namespace WhatsappAPI
             return clearText;
         }
 
+        private string DecryptAES(ref string cipherText, ref string EncryptionKey)
+        {
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] Mykey = Encoding.UTF8.GetBytes(EncryptionKey);
+            byte[] Myiv = Encoding.UTF8.GetBytes(FrontEndinitVector);
+
+            Aes decryptor = Aes.Create();
+            decryptor.Mode = CipherMode.CBC;
+            decryptor.Padding = PaddingMode.PKCS7;
+            decryptor.FeedbackSize = 128;
+            decryptor.Key = Mykey;
+            decryptor.IV = Myiv;
+
+            using (MemoryStream ms = new MemoryStream(cipherBytes))
+            {
+                using (CryptoStream cs = new CryptoStream(ms, decryptor.CreateDecryptor(), CryptoStreamMode.Read))
+                {
+                    using (StreamReader sr = new StreamReader(cs, Encoding.UTF8))
+                    {
+                        cipherText = sr.ReadToEnd();
+                        return cipherText;
+                    }
+                }
+            }
+        }
 
 
         //private string GetURL()
@@ -105,7 +130,7 @@ namespace WhatsappAPI
             {
                 //
                 // _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "Wf3wjBb6hac3AoVXWkTC6MCjAK";
-                _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "X9oyR99mru6zBZ4bnYceW86PAK";
+                _360DialogWrapper._360DialogWrapper._360DialogAPIkey = "HhqzIpO3yWKFRKuUf6vXDN8bAK";
                  var msg = _360DialogWrapper._360DialogWrapper.SendTextMessage(txtnbr.Text.Trim(), "HI");
 
                 //JavaScriptSerializer serializer1 = new JavaScriptSerializer();
@@ -235,6 +260,19 @@ namespace WhatsappAPI
 
 
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string enc = "Dx0t1FTFk5OmwJLn3N+y0B2CGG+hPN7ehKXhrtwjLho=";
+                Console.WriteLine(DecryptAES(ref enc, ref TokenEncKey));
             }
             catch (Exception ex)
             {

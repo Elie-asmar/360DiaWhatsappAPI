@@ -6,3 +6,11 @@ C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_3
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360DialogWrapperCloudAPI.pdb
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\bin\Debug\System.Net.Http.dll
 C:\Users\Lenovo\Desktop\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360Dial.1C817731.Up2Date
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\bin\Debug\_360DialogWrapperCloudAPI.dll
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\bin\Debug\_360DialogWrapperCloudAPI.pdb
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\bin\Debug\System.Net.Http.dll
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360DialogWrapperCloudAPI.csproj.AssemblyReference.cache
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360DialogWrapperCloudAPI.csproj.CoreCompileInputs.cache
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360Dial.1C817731.Up2Date
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360DialogWrapperCloudAPI.dll
+C:\Sources\360DiaWhatsappAPI\_360DialogWrapperCloudAPI\obj\Debug\_360DialogWrapperCloudAPI.pdb
